@@ -9,4 +9,4 @@
 - The application is designed for a desktop keyboard. Browser, keyboard, display, and device differences can affect timing.
 - Data is held in page memory and is not uploaded. A reload or closed tab can discard an unexported session.
 - No identifying information is collected. Keep downloaded data secure and follow school requirements for consent, storage, retention, and deletion.
-- Obtain appropriate school/teacher review and informed consent, including parent/guardian permission for under-18 participants where required, before any participant recruitment.
+- Tell participants what is recorded, who will access exported data, and how it will be stored. Participation must be voluntary. If any participants are under 18, obtain permissions required by the school or applicable rules before recruitment.
