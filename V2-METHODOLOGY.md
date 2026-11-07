@@ -27,8 +27,8 @@ The four words/ink colours are RED, GREEN, BLUE, and YELLOW. Keys R/G/B/Y map to
 ## Data handling
 No name, email, or other direct identifier is requested. The application does not transmit data to a server. Trial data stays in the active browser session and is exported as a CSV only when the user chooses Download. Closing or reloading the page may lose unsaved session data.
 
-## Participant protection
-This prototype is not ethics-approved and should not be used to recruit participants without appropriate review. Obtain teacher/school approval and informed consent; obtain parent/guardian permission for participants under 18 where required by the school or applicable rules. Participation must be voluntary, and participants must be free to stop. Do not collect sensitive or identifying information. For a school project, follow the school's research and safeguarding requirements.
+## Participant information and data handling
+Participation should be voluntary, and participants should be told what the task involves, what data is recorded, who will see the exported files, and how the files will be stored and deleted. Participants may stop at any time. The application does not ask for names or contact details and does not transmit results to a server. If participants are under 18, obtain any permissions required by the school or applicable rules before inviting them. Keep downloaded files private and do not publish individual-level data.
 
 ## Interpretation
 This is an exploratory demonstration, not evidence that assistance universally reduces agency. Ratings are brief self-report measures created for this prototype, not validated psychometric scales. A single-session Stroop task cannot establish broad claims about agency in BCIs, robotics, or other real-world systems. Counterbalancing block order reduces one source of order bias but does not eliminate learning, fatigue, or demand characteristics.
