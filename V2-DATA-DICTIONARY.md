@@ -1,6 +1,6 @@
 # StroopLab V2 — Data dictionary
 
-The CSV export contains trial rows followed by a blank line and a block-rating section.
+The CSV export contains trial rows followed by a blank line and a block-rating section. Each participant's browser creates its own file; the website does not collect or combine files automatically. Participants can voluntarily send the CSV to the researcher, who can combine the files for analysis.
 
 ## Trial fields
 
