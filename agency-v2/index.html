@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StroopLab V2 — Assistance & Agency</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#172033;background:#f5f7fb}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:920px;margin:0 auto;padding:28px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);margin:0}.tag{font-size:.78rem;background:#e6ebff;color:#3346a8;padding:7px 11px;border-radius:20px}
+.panel{background:white;border:1px solid #e2e7f0;border-radius:18px;padding:24px;box-shadow:0 8px 28px #23345b0b;margin:14px 0}
+h2{margin:0 0 12px;font-size:1.25rem}p{line-height:1.6;color:#536078}.muted{font-size:.9rem;color:#66738a}
+button{border:0;border-radius:10px;padding:12px 17px;background:#3448b5;color:white;font-weight:650;cursor:pointer;font-size:1rem}button.secondary{background:#edf0f7;color:#25314b}button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:0 0 auto}
+label{display:flex;gap:9px;align-items:flex-start;margin:12px 0;color:#354158;line-height:1.45}
+input[type=checkbox]{margin-top:4px}.hidden{display:none!important}
+.stimulus{font-size:clamp(2.8rem,10vw,5.5rem);font-weight:800;letter-spacing:.06em;text-align:center;padding:35px 10px}
+.fix{font-size:3rem;text-align:center;padding:35px}
+.hint{text-align:center;font-weight:650;min-height:28px;color:#4b5871}
+.keys{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0}.key{border:1px solid #dce2ee;border-radius:9px;padding:9px 13px;background:#fafbfe;font-weight:700}
+.progress{height:8px;background:#edf0f6;border-radius:20px;overflow:hidden;margin:15px 0}.bar{height:100%;background:#5368d8;width:0}
+.rating{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.rating button{min-width:42px;background:#edf0f7;color:#26324b}.rating button.selected{background:#3448b5;color:white}
+table{width:100%;border-collapse:collapse;margin:12px 0}td,th{padding:10px;border-bottom:1px solid #e8ecf3;text-align:left;font-size:.92rem}th{color:#58657b}
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.stat{background:#f5f7fc;border-radius:12px;padding:14px}.stat strong{display:block;font-size:1.5rem;margin-top:5px}
+.notice{border-left:4px solid #d59b32;padding:10px 14px;background:#fff8e9;border-radius:6px;color:#5c4a23;font-size:.92rem;line-height:1.5}
+#message{min-height:24px;text-align:center;color:#58657b}
+</style></head>
+<body><main class="wrap">
+<header><h1>StroopLab <span style="color:#596bd0">V2</span></h1><span class="tag">Assistance & perceived agency</span></header>
+<section id="intro" class="panel">
+<h2>About this experiment</h2>
+<p>This version builds on the original Stroop task and explores how different levels of computer assistance relate to performance and perceived control.</p>
+<div class="statgrid">
+<div class="stat">Practice<strong>10 trials</strong></div><div class="stat">Main task<strong>72 trials</strong></div><div class="stat">Conditions<strong>3 × 24 trials</strong></div>
+</div>
+<p><b>Your task:</b> identify the ink colour, not the word. In the main task, you will complete three short blocks:</p>
+<ul><li><b>Unaided:</b> choose the ink-colour key yourself.</li><li><b>Suggestion:</b> the computer displays a suggested ink colour; you remain free to choose.</li><li><b>Delegated:</b> the computer selects the response and you confirm it with Space. This block measures confirmation time, not ordinary choice reaction time.</li></ul>
+<p>After each block, you will rate your perceived control, sense of ownership, and trust in the assistance.</p>
+<div class="notice"><b>For supervised research use:</b> this is a student project prototype, not an ethics-approved study. Before recruiting anyone else, obtain teacher/school approval and the appropriate informed consent and parent/guardian permission for participants under 18. Participation must be voluntary. Do not enter names, email addresses, or other identifying details. You can use the demo yourself without collecting anyone else's data.</div>
+<label><input id="voluntary" type="checkbox"> I understand the task and know I can stop at any time.</label>
+<label><input id="permission" type="checkbox"> I have the required adult/teacher permission to take part in this session.</label>
+<div class="row"><button id="start" disabled>Start practice</button></div>
+<p class="muted">Privacy: all trial data stays in this browser tab until you choose to download the CSV. Nothing is uploaded to a server.</p>
+</section>
+<section id="task" class="panel hidden">
+<div class="row" style="justify-content:space-between"><span id="phaseLabel" class="muted">Practice</span><span id="count" class="muted"></span></div>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="fix" class="fix">+</div>
+<div id="stimulus" class="stimulus hidden"></div>
+<div id="hint" class="hint"></div>
+<div id="keys" class="keys"><span class="key">R = Red</span><span class="key">G = Green</span><span class="key">B = Blue</span><span class="key">Y = Yellow</span></div>
+<p id="message"></p>
+<div class="row" style="justify-content:center"><button id="stop" class="secondary">Stop session</button></div>
+</section>
+<section id="survey" class="panel hidden">
+<h2 id="surveyTitle">Block feedback</h2>
+<p>Rate each statement from 1 (not at all) to 7 (very much).</p>
+<div id="surveyQuestions"></div>
+<button id="saveSurvey" disabled>Continue</button>
+</section>
+<section id="results" class="panel hidden">
+<h2>Session results</h2><p>Your results are calculated in this browser. They are not a diagnosis or a measure of general intelligence.</p>
+<div id="summary"></div>
+<div class="row"><button id="download">Download session CSV</button><button id="restart" class="secondary">Run another session</button></div>
+<p class="muted">CSV includes trial-level responses and block-level ratings. The delegated condition's latency is confirmation time and should not be treated as directly equivalent to key-choice reaction time.</p>
+</section>
+</main>
+<script>
+(()=> {
+const $=id=>document.getElementById(id), colours=["RED","GREEN","BLUE","YELLOW"], keys={r:"RED",g:"GREEN",b:"BLUE",y:"YELLOW"}, css={RED:"#d93636",GREEN:"#16834a",BLUE:"#2458c7",YELLOW:"#b18a00"};
+const conditions=[{id:"unaided",name:"Unaided"},{id:"suggestion",name:"Suggestion"},{id:"delegated",name:"Delegated"}];
+let trials=[],idx=0,phase="practice",current=null,shownAt=0,rows=[],ratings=[],blockOrder=[],blockRatings={},surveyIndex=0,surveyValues={},waiting=false;
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function makeTrials(n){let a=[];for(let i=0;i<n/2;i++){const c=colours[i%4];a.push({word:c,ink:c,congruency:"congruent"});let w=colours[(i+1)%4];a.push({word:w,ink:c,congruency:"incongruent"})}return shuffle(a)}
+$("voluntary").onchange=$("permission").onchange=()=>{$("start").disabled=!($("voluntary").checked&&$("permission").checked)};
+$("start").onclick=()=>{rows=[];ratings=[];blockRatings={};idx=0;phase="practice";blockOrder=shuffle(conditions);trials=makeTrials(10).map(t=>({...t,condition:"practice"}));$("intro").classList.add("hidden");$("task").classList.remove("hidden");showNext()};
+function showNext(){
+ if(idx>=trials.length){if(phase==="practice"){phase="main";idx=0;trials=[];for(const c of blockOrder){for(const t of makeTrials(24))trials.push({...t,condition:c.id})}showNext();return}finishBlockOrResults();return}
+ current=trials[idx];waiting=false;$("phaseLabel").textContent=phase==="practice"?"Practice":conditions.find(c=>c.id===current.condition).name+" block";
+ $("count").textContent=(idx+1)+" / "+trials.length;$("bar").style.width=(idx/trials.length*100)+"%";
+ $("fix").classList.remove("hidden");$("stimulus").classList.add("hidden");$("hint").textContent="";$("message").textContent="";
+ setTimeout(()=>{if(!current)return;$("fix").classList.add("hidden");$("stimulus").textContent=current.word;$("stimulus").style.color=css[current.ink];$("stimulus").classList.remove("hidden");
+ if(current.condition==="suggestion")$("hint").textContent="Computer suggestion: "+current.ink;
+ if(current.condition==="delegated"){$("hint").textContent="Computer selected: "+current.ink+" — press SPACE to confirm";$("keys").classList.add("hidden")}else $("keys").classList.remove("hidden");
+ shownAt=performance.now();waiting=true},350);
+}
+function record(response,rt,correct,mode){const r={trial:rows.length+1,phase,condition:current.condition,word:current.word,ink_colour:current.ink,congruency:current.congruency,response,correct:correct?1:0,latency_ms:Math.round(rt),latency_type:mode};if(phase==="main")rows.push(r);if(phase==="practice")$("message").textContent=correct?"Correct":"The ink colour was "+current.ink;waiting=false;idx++;setTimeout(showNext,phase==="practice"?550:180)}
+function keydown(e){if(!waiting||$("task").classList.contains("hidden"))return;const k=e.key.toLowerCase();if(current.condition==="delegated"){if(e.code==="Space"){e.preventDefault();record("SPACE_CONFIRM",performance.now()-shownAt,true,"confirmation");}return}if(!keys[k])return;const response=keys[k];record(response,performance.now()-shownAt,response===current.ink,"choice_reaction_time")}
+document.addEventListener("keydown",keydown);
+function finishBlockOrResults(){const done=blockOrder.find(c=>!blockRatings[c.id]);if(done){surveyIndex=0;surveyValues={};$("task").classList.add("hidden");$("survey").classList.remove("hidden");$("surveyTitle").textContent=done.name+" — feedback";const qs=["I felt in control of the response.","The response felt like my own action.","I trusted the computer's role in this block."];const wrap=$("surveyQuestions");wrap.innerHTML="";qs.forEach((q,i)=>{const d=document.createElement("div");d.innerHTML='<p><b>'+q+'</b></p><div class="rating" data-q="'+i+'"></div>';const r=d.querySelector(".rating");for(let v=1;v<=7;v++){const b=document.createElement("button");b.type="button";b.textContent=v;b.onclick=()=>{surveyValues[i]=v;r.querySelectorAll("button").forEach(x=>x.classList.toggle("selected",x===b));$("saveSurvey").disabled=Object.keys(surveyValues).length!==3};r.appendChild(b)}wrap.appendChild(d)});$("saveSurvey").onclick=()=>{blockRatings[done.id]=surveyValues;ratings.push({condition:done.id,control:surveyValues[0],ownership:surveyValues[1],trust:surveyValues[2]});$("survey").classList.add("hidden");$("task").classList.remove("hidden");finishBlockOrResults()};$("saveSurvey").disabled=true;return}
+ $("task").classList.add("hidden");$("results").classList.remove("hidden");renderResults()}
+function mean(a){return a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):"—"}
+function renderResults(){let h='<table><thead><tr><th>Condition</th><th>Accuracy</th><th>Mean latency (ms)</th><th>Control</th><th>Ownership</th><th>Trust</th></tr></thead><tbody>';for(const c of conditions){const a=rows.filter(r=>r.condition===c.id),rt=a.map(r=>r.latency_ms),acc=mean(a.map(r=>r.correct*100)),q=ratings.find(r=>r.condition===c.id)||{};h+='<tr><td>'+c.name+'</td><td>'+acc+'%</td><td>'+mean(rt)+'</td><td>'+ (q.control??"—")+'</td><td>'+(q.ownership??"—")+'</td><td>'+(q.trust??"—")+'</td></tr>'}h+='</tbody></table><p class="muted">Accuracy in the delegated block is determined by the computer-selected answer; its latency is confirmation time. Interpret those measures separately from unaided and suggestion blocks.</p>';$("summary").innerHTML=h}
+function csv(){const head=["trial","phase","condition","word","ink_colour","congruency","response","correct","latency_ms","latency_type"];const esc=x=>'"'+String(x??"").replaceAll('"','""')+'"';let out=[head.join(",")];rows.forEach(r=>out.push(head.map(k=>esc(r[k])).join(",")));out.push("");out.push("condition,perceived_control,action_ownership,trust");ratings.forEach(r=>out.push([r.condition,r.control,r.ownership,r.trust].map(esc).join(",")));return out.join("\r\n")}
+$("download").onclick=()=>{const blob=new Blob([csv()],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="strooplab-v2-session.csv";a.click();URL.revokeObjectURL(a.href)};
+$("stop").onclick=()=>{if(confirm("Stop this session? The unfinished session will not be saved.")){waiting=false;current=null;$("task").classList.add("hidden");$("intro").classList.remove("hidden")}};
+$("restart").onclick=()=>location.reload();
+})();
+</script></body></html>
